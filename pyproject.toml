@@ -1,0 +1,89 @@
+[project]
+name = "project-aegis"
+version = "0.1.0"
+description = "Project AEGIS — Autonomous Fuzzer & Exfiltration Guard Sandbox"
+authors = [
+    { name = "AEGIS Security Lab", email = "security@aegis.local" },
+]
+requires-python = ">=3.11"
+readme = "README.md"
+license = { text = "MIT" }
+dependencies = [
+    "fastapi>=0.110",
+    "uvicorn>=0.27",
+    "httpx>=0.26",
+    "pydantic>=2.6",
+    "jinja2>=3.1",
+    "pyyaml>=6.0",
+    "cryptography>=41.0",
+    "rich>=13.7",
+    "asyncio-throttle>=1.0",
+    "anyio>=4.2",
+    "multidict>=6.0",
+    "aiofiles>=23.2",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "types-pyyaml>=6.0.0",
+    "types-requests>=2.31.0",
+]
+
+[project.scripts]
+aegis-fuzz = "aegis_fuzzer.cli:main"
+aegis-guard = "aegis_guard.app.main:run"
+
+[[tool.uv.dependency-groups]]
+name = "dev"
+dependencies = [
+    "pytest>=8.2.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=5.0.0",
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "types-pyyaml>=6.0.0",
+    "types-requests>=2.31.0",
+]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["aegis-fuzzer/tests", "aegis-guard/tests"]
+asyncio_mode = "auto"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "F",
+    "I",
+    "B",
+    "UP",
+    "ASYNC",
+    "S",
+]
+ignore = [
+    "S311",  # cryptographically weak random warning (controlled usage)
+]
+
+[tool.mypy]
+python_version = "3.11"
+warn_unused_configs = true
+warn_unused_ignores = true
+warn_return_any = true
+strict_optional = true
+check_untyped_defs = true
+disallow_untyped_defs = true
+plugins = []
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+

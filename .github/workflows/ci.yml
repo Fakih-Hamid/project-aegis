@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install uv
+        run: pip install uv
+      - name: Sync dependencies
+        run: uv sync
+      - name: Lint
+        run: uv run ruff check .
+      - name: Type check
+        run: uv run mypy .
+      - name: Tests
+        run: uv run pytest --cov=aegis_fuzzer --cov=aegis_guard --cov-report=xml
+      - name: Publish SARIF report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: aegis-fuzzer-sarif
+          path: aegis-fuzzer/reports/*.sarif
+

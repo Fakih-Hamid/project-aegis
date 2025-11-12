@@ -1,0 +1,27 @@
+version: 1
+rules:
+  - id: deny-secret-exfil
+    action: deny
+    match:
+      contains_secret: true
+  - id: deny-pii-exfil
+    action: deny
+    match:
+      contains_pii: true
+  - id: deny-external-post
+    action: deny
+    match:
+      tool:
+        - http_fetch
+      payload_regex: "(?i)https?://"
+  - id: redact-email-draft
+    action: redact
+    match:
+      tool: email_draft
+  - id: allow-safe-tools
+    action: allow
+    match:
+      tool:
+        - web_search
+        - payment_stub
+
