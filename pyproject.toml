@@ -69,6 +69,7 @@ strict_optional = true
 check_untyped_defs = true
 disallow_untyped_defs = true
 plugins = []
+exclude = "(^|/)aegis-fuzzer/|(^|/)aegis-guard/"
 
 [build-system]
 requires = ["setuptools>=68", "wheel"]
