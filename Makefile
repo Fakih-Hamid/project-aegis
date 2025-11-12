@@ -4,7 +4,7 @@ REPORT_DIR := $(PROJECT_ROOT)/aegis-fuzzer/reports
 
 .PHONY: install
 install:
-	uv sync
+	uv sync --extra dev
 
 .PHONY: lint
 lint:

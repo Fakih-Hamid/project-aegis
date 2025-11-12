@@ -16,7 +16,7 @@ Both modules share reusable utilities under `common/` and can run fully offline.
 
 ```bash
 # Setup local environment
-uv sync
+uv sync --extra dev
 
 # Launch the vulnerable target used by the fuzzer
 make up

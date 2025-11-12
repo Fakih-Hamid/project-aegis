@@ -38,18 +38,6 @@ dev = [
 aegis-fuzz = "aegis_fuzzer.cli:main"
 aegis-guard = "aegis_guard.app.main:run"
 
-[[tool.uv.dependency-groups]]
-name = "dev"
-dependencies = [
-    "pytest>=8.2.0",
-    "pytest-asyncio>=0.23.0",
-    "pytest-cov>=5.0.0",
-    "ruff>=0.4.0",
-    "mypy>=1.10.0",
-    "types-pyyaml>=6.0.0",
-    "types-requests>=2.31.0",
-]
-
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["aegis-fuzzer/tests", "aegis-guard/tests"]

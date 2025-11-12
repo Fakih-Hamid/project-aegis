@@ -20,7 +20,7 @@ jobs:
       - name: Install uv
         run: pip install uv
       - name: Sync dependencies
-        run: uv sync
+        run: uv sync --extra dev
       - name: Lint
         run: uv run ruff check .
       - name: Type check
