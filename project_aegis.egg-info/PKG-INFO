@@ -1,0 +1,80 @@
+Metadata-Version: 2.4
+Name: project-aegis
+Version: 0.1.0
+Summary: Project AEGIS — Autonomous Fuzzer & Exfiltration Guard Sandbox
+Author-email: AEGIS Security Lab <security@aegis.local>
+License-Expression: MIT
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: fastapi>=0.110
+Requires-Dist: uvicorn>=0.27
+Requires-Dist: httpx>=0.26
+Requires-Dist: pydantic>=2.6
+Requires-Dist: jinja2>=3.1
+Requires-Dist: pyyaml>=6.0
+Requires-Dist: cryptography>=41.0
+Requires-Dist: rich>=13.7
+Requires-Dist: asyncio-throttle>=1.0
+Requires-Dist: anyio>=4.2
+Requires-Dist: multidict>=6.0
+Requires-Dist: aiofiles>=23.2
+Provides-Extra: dev
+Requires-Dist: pytest>=8.2.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.23.0; extra == "dev"
+Requires-Dist: pytest-cov>=5.0.0; extra == "dev"
+Requires-Dist: ruff>=0.4.0; extra == "dev"
+Requires-Dist: mypy>=1.10.0; extra == "dev"
+Requires-Dist: types-pyyaml>=6.0.0; extra == "dev"
+Requires-Dist: types-requests>=2.31.0; extra == "dev"
+
+# Project AEGIS
+
+**An Offline AI Security Lab combining an Autonomous Fuzzer and an Exfiltration-Resistant Policy Sandbox. Because the best defense is understanding your offense.**
+
+## Overview
+
+Project AEGIS is a mono-repo that ships two complementary demonstrators:
+
+- `aegis-fuzzer/` — an AI-assisted vulnerability discovery pipeline that combines classical fuzzing strategies with offline large-language-model guidance.
+- `aegis-guard/` — a privacy-preserving sandbox that enforces strict data-loss-prevention policies whenever an AI agent invokes external tools.
+
+Both modules share reusable utilities under `common/` and can run fully offline.
+
+
+## Quick Start
+
+```bash
+# Setup local environment
+uv sync --extra dev
+
+# Launch the vulnerable target used by the fuzzer
+make up
+
+# Run a short fuzzing session (3 minutes by default)
+make fuzz-demo
+
+# Review generated SARIF and HTML reports
+make report
+
+# Start the sandbox demo API (FastAPI)
+make sandbox
+
+# Run static checks and tests
+make lint
+make test
+```
+
+All commands are designed to operate without external network access once dependencies are installed.
+
+## Repository Layout
+
+- `common/`: shared offline LLM abstractions, logging, hashing, PII detection, and SARIF helpers.
+- `aegis-fuzzer/`: fuzzing engine, CLI entrypoint, vulnerable targets, and tests.
+- `aegis-guard/`: sandbox policies, tool wrappers, FastAPI demo app, and tests.
+- `.github/`: CI workflows (ruff, mypy, pytest, SARIF artifact export).
+- `docker-compose.yml`: orchestration for vulnerable targets used by the fuzzer.
+
+## Licensing
+
+This project is released under the MIT License.
+

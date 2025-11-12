@@ -1,0 +1,3 @@
+[console_scripts]
+aegis-fuzz = aegis_fuzzer.cli:main
+aegis-guard = aegis_guard.app.main:run

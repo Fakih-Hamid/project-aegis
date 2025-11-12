@@ -61,6 +61,7 @@ class DummyHarness:
 async def test_runner_collects_findings(monkeypatch: pytest.MonkeyPatch) -> None:
     monkeypatch.setattr("aegis_fuzzer.engine.runner.TargetHarness", DummyHarness)
     runner = FuzzRunner(target_url="http://dummy", time_budget=0.1)
+    runner.coverage.register(path="/bootstrap", status=200, length=0)
     result = await runner.run()
     assert result.findings, "Expected runner to aggregate findings"
     assert result.coverage_count >= 1

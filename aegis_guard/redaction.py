@@ -17,18 +17,23 @@ class RedactionResult:
 
 
 def redact_sensitive(text: str, memory: UserMemory) -> RedactionResult:
-    redacted = text
+    redacted = redact_text(text)
+    pii_hits = detect_pii(text)
     replaced_tokens: list[str] = []
 
     for token in memory.sensitive_tokens():
         if not token:
             continue
+        candidate = redact_text(token)
+        if "email" in candidate:
+            continue
         if token in redacted:
             redacted = redacted.replace(token, "<redacted-secret>")
             replaced_tokens.append(token)
-
-    pii_hits = detect_pii(text)
-    redacted = redact_text(redacted)
+            continue
+        if candidate != token and candidate in redacted:
+            redacted = redacted.replace(candidate, "<redacted-secret>")
+            replaced_tokens.append(token)
 
     return RedactionResult(text=redacted, redacted=replaced_tokens, pii=pii_hits)
 
