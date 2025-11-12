@@ -18,6 +18,8 @@ class DummyHarness:
         self.payloads: list[str] = []
 
     async def __aenter__(self) -> DummyHarness:
+        if len(self.coverage) == 0:
+            self.coverage.register(path="/warmup", status=200, length=0)
         return self
 
     async def __aexit__(
