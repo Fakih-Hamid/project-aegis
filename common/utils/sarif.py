@@ -77,7 +77,7 @@ def _location_to_dict(location: SarifLocation) -> dict[str, Any]:
 
 
 def _result_to_dict(result: SarifResult) -> dict[str, Any]:
-    payload = {
+    payload: dict[str, Any] = {
         "ruleId": result.rule_id,
         "level": result.level,
         "message": {"text": result.message},
@@ -91,9 +91,9 @@ def _result_to_dict(result: SarifResult) -> dict[str, Any]:
 
 def run_to_sarif(run: SarifRun) -> dict[str, Any]:
     """Convert a :class:`SarifRun` object into a SARIF v2.1.0 dict."""
-    artifact_entries = [
-        {"location": {"uri": artifact}} for artifact in run.artifacts
-    ]
+    artifact_entries: list[dict[str, Any]] = []
+    for artifact in run.artifacts:
+        artifact_entries.append({"location": {"uri": artifact}})
 
     return {
         "version": SARIF_VERSION,
