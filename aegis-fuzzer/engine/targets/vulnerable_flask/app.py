@@ -1,4 +1,4 @@
-from aegis_fuzzer.engine.targets.vulnerable_flask.app import app, _init_db  # type: ignore[F401]
+from aegis_fuzzer.engine.targets.vulnerable_flask.app import _init_db, app  # type: ignore[F401]
 
 if __name__ == "__main__":
     _init_db()

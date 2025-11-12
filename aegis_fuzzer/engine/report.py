@@ -4,33 +4,37 @@ from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
-from typing import Iterable, Tuple
 
 from jinja2 import Template
 
 from common.utils.sarif import SarifLocation, SarifResult, SarifRule, SarifRun, write_sarif
 
-from .runner import FuzzFinding, FuzzRunResult
-
+from .runner import FuzzRunResult
 
 SARIF_RULES = [
     SarifRule(
         rule_id="AEGIS500",
         name="Server error response",
         short_description="Unhandled server error encountered while fuzzing.",
-        full_description="The target returned a 5xx response code indicating a potential vulnerability.",
+        full_description=(
+            "The target returned a 5xx response code indicating a potential vulnerability."
+        ),
     ),
     SarifRule(
         rule_id="AEGIS-SQL",
         name="SQL injection indicator",
         short_description="Evidence of SQL query manipulation detected.",
-        full_description="Response body matched patterns commonly produced by SQL injection attempts.",
+        full_description=(
+            "Response body matched patterns commonly produced by SQL injection attempts."
+        ),
     ),
     SarifRule(
         rule_id="AEGIS-TEMPLATE",
         name="Template injection indicator",
         short_description="Template rendering artifacts were identified.",
-        full_description="Response contains template syntax which suggests server-side template injection.",
+        full_description=(
+            "Response contains template syntax which suggests server-side template injection."
+        ),
     ),
 ]
 

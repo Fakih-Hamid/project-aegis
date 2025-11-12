@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
-from typing import Any, Dict
+from typing import Any
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel, Field
@@ -20,17 +20,17 @@ class ChatRequest(BaseModel):
 
 class ChatResponse(BaseModel):
     response: str
-    decision: Dict[str, Any]
+    decision: dict[str, Any]
 
 
 class ToolRequest(BaseModel):
     tool: str
-    args: Dict[str, Any] = Field(default_factory=dict)
+    args: dict[str, Any] = Field(default_factory=dict)
 
 
 class ToolResponse(BaseModel):
     result: Any
-    decision: Dict[str, Any]
+    decision: dict[str, Any]
 
 
 @app.post("/chat", response_model=ChatResponse)

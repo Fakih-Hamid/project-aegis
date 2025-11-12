@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from typing import Iterable, List, Tuple
 
 from common.utils.pii import detect_pii, redact_text
 

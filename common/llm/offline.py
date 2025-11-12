@@ -11,11 +11,10 @@ from __future__ import annotations
 import asyncio
 import random
 import re
+from collections.abc import Iterable, Mapping
 from dataclasses import dataclass, field
-from typing import Any, Iterable, Mapping
 
 from .base import BaseLLM, LLMRequest, LLMResponse
-
 
 DEFAULT_PAYLOAD_HINTS = [
     "' OR '1'='1",
@@ -72,7 +71,11 @@ class OfflineLLM(BaseLLM):
 
         text = f"{selected}\n\n{advice}"
         usage_tokens = min(len(text.split()), self._config.max_tokens)
-        return LLMResponse(text=text.strip(), usage_tokens=usage_tokens, metadata={"mode": "offline"})
+        return LLMResponse(
+            text=text.strip(),
+            usage_tokens=usage_tokens,
+            metadata={"mode": "offline"},
+        )
 
     # Internal helpers -----------------------------------------------------
     def _suggest_payload(self, clue_space: str) -> str:

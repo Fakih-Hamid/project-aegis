@@ -16,7 +16,12 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Run the AEGIS guided fuzzer.")
     parser.add_argument("--target", required=True, help="Target base URL, e.g. http://localhost:5001")
     parser.add_argument("--budget", type=float, default=180.0, help="Time budget in seconds")
-    parser.add_argument("--reports", type=Path, default=None, help="Directory used to write reports")
+    parser.add_argument(
+        "--reports",
+        type=Path,
+        default=None,
+        help="Directory used to write reports",
+    )
     return parser.parse_args(argv)
 
 

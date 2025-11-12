@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import hmac
 import os
-from typing import Iterable
+from collections.abc import Iterable
 
 
 def _coerce_bytes(data: bytes | str) -> bytes:

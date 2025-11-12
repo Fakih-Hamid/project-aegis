@@ -1,4 +1,4 @@
-from .engine import PolicyEngine, PolicyContext, PolicyDecision
+from .engine import PolicyContext, PolicyDecision, PolicyEngine
 
 __all__ = ["PolicyEngine", "PolicyContext", "PolicyDecision"]
 

@@ -1,7 +1,7 @@
 """Shared utilities for Project AEGIS."""
 
-from .llm.offline import OfflineLLM, OfflineLLMConfig
 from .llm.base import BaseLLM, LLMRequest, LLMResponse
+from .llm.offline import OfflineLLM, OfflineLLMConfig
 from .utils import hashing, logging, pii, sarif
 
 __all__ = [

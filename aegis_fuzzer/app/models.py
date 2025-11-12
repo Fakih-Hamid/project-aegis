@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -25,7 +24,7 @@ class CaseModel(BaseModel):
     response_length: int
     url: str
     new_coverage: bool
-    findings: List[FindingModel] = Field(default_factory=list)
+    findings: list[FindingModel] = Field(default_factory=list)
 
 
 class RunSummary(BaseModel):
@@ -33,8 +32,8 @@ class RunSummary(BaseModel):
     duration_seconds: float
     iterations: int
     coverage_count: int
-    cases: List[CaseModel]
-    findings: List[FindingModel]
+    cases: list[CaseModel]
+    findings: list[FindingModel]
 
 
 class RunListEntry(BaseModel):

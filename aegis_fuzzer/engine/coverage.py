@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 import time
+from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Iterable, Set, Tuple
 
 from common.utils.hashing import sha256_hex
 
@@ -46,7 +46,7 @@ class CoverageMap:
     def seen(self, path: str, status: int, length: int) -> bool:
         return self._hash(path, status, length) in self.entries
 
-    def digests(self) -> Set[str]:
+    def digests(self) -> set[str]:
         return set(self.entries.keys())
 
     def __len__(self) -> int:

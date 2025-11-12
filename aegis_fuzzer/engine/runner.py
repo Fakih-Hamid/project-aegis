@@ -4,13 +4,12 @@ from __future__ import annotations
 
 import asyncio
 import time
+from collections.abc import Sequence
 from dataclasses import dataclass, field
-from typing import Dict, Iterable, List, Sequence
 
 from common.utils.logging import setup_logging
 
 from .coverage import CoverageMap
-from .detectors import Detection
 from .harness import FuzzResponse, TargetHarness
 from .mutators import ClassicMutator, LLMGuidedMutator, MutationContext
 
@@ -100,7 +99,12 @@ class FuzzRunner:
     async def run(self) -> FuzzRunResult:
         start = time.time()
         iterations = 0
-        result = FuzzRunResult(target=self.target_url, duration_seconds=0.0, iterations=0, coverage_count=0)
+        result = FuzzRunResult(
+            target=self.target_url,
+            duration_seconds=0.0,
+            iterations=0,
+            coverage_count=0,
+        )
 
         async with TargetHarness(self.target_url, coverage=self.coverage) as harness:
             await harness.warmup()

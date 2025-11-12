@@ -2,17 +2,15 @@
 
 from __future__ import annotations
 
-import asyncio
 from datetime import datetime
-from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 
 from aegis_fuzzer.engine.report import generate_reports
 from aegis_fuzzer.engine.runner import FuzzRunner
 
 from .models import FuzzRequest, RunListEntry, RunSummary
-from .storage import ensure_report_dir, list_runs, load_latest, load_run, save_run
+from .storage import ensure_report_dir, list_runs, load_latest, save_run
 
 app = FastAPI(title="AEGIS Fuzzer", version="0.1.0")
 

@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-import asyncio
 import time
 from dataclasses import dataclass
-from typing import Any
 
 import httpx
 
@@ -28,13 +26,19 @@ class FuzzResponse:
 class TargetHarness:
     """Wraps the HTTP interactions with the vulnerable Flask application."""
 
-    def __init__(self, base_url: str, *, timeout: float = 5.0, coverage: CoverageMap | None = None) -> None:
+    def __init__(
+        self,
+        base_url: str,
+        *,
+        timeout: float = 5.0,
+        coverage: CoverageMap | None = None,
+    ) -> None:
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.coverage = coverage or CoverageMap()
         self._client: httpx.AsyncClient | None = None
 
-    async def __aenter__(self) -> "TargetHarness":
+    async def __aenter__(self) -> TargetHarness:
         self._client = httpx.AsyncClient(base_url=self.base_url, timeout=self.timeout)
         return self
 
@@ -58,8 +62,17 @@ class TargetHarness:
         elapsed_ms = (time.perf_counter() - start) * 1000
 
         body = response.text
-        coverage_entry = self.coverage.register(path="/search", status=response.status_code, length=len(body))
-        detections = analyze_response(payload=payload, status=response.status_code, body=body, elapsed_ms=elapsed_ms)
+        coverage_entry = self.coverage.register(
+            path="/search",
+            status=response.status_code,
+            length=len(body),
+        )
+        detections = analyze_response(
+            payload=payload,
+            status=response.status_code,
+            body=body,
+            elapsed_ms=elapsed_ms,
+        )
         return FuzzResponse(
             payload=payload,
             status_code=response.status_code,

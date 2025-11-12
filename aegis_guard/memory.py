@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Iterable, Set
 
 from common.utils.pii import contains_pii
 
@@ -17,7 +16,7 @@ class UserMemory:
     health_info: set[str] = field(default_factory=set)
 
     @classmethod
-    def default(cls) -> "UserMemory":
+    def default(cls) -> UserMemory:
         return cls(
             name="Athena Operator",
             email="athena.operator@example.com",
@@ -26,7 +25,7 @@ class UserMemory:
             health_info={"Blood type: O-"},
         )
 
-    def sensitive_tokens(self) -> Set[str]:
+    def sensitive_tokens(self) -> set[str]:
         tokens = {self.name, self.email, *self.api_keys, *self.secrets, *self.health_info}
         return {token for token in tokens if token}
 

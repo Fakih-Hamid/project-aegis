@@ -4,12 +4,11 @@ from __future__ import annotations
 
 import random
 import string
+from collections.abc import Iterable, Sequence
 from dataclasses import dataclass
-from typing import Iterable, List, Sequence
 
-from common.llm.offline import OfflineLLM
 from common.llm.base import BaseLLM
-
+from common.llm.offline import OfflineLLM
 
 SEED_PAYLOADS: Sequence[str] = (
     "",
@@ -47,7 +46,11 @@ class Mutator:
 class ClassicMutator(Mutator):
     """Classic mutation strategies: bit flips, dictionary injections, casing."""
 
-    def __init__(self, dictionary: Iterable[str] | None = None, rng: random.Random | None = None) -> None:
+    def __init__(
+        self,
+        dictionary: Iterable[str] | None = None,
+        rng: random.Random | None = None,
+    ) -> None:
         super().__init__(rng=rng)
         self.dictionary = list(dictionary or [])
         if not self.dictionary:

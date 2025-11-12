@@ -6,7 +6,7 @@ import json
 import time
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Iterable, List
+from typing import Any
 
 from common.utils.hashing import derive_hmac_key, hmac_sha256_hex
 
@@ -27,7 +27,14 @@ class AuditLogger:
         self._key = derive_hmac_key(key)
         self._records: list[AuditRecord] = []
 
-    def log(self, tool: str, action: str, payload: str, decision: str, **metadata: Any) -> AuditRecord:
+    def log(
+        self,
+        tool: str,
+        action: str,
+        payload: str,
+        decision: str,
+        **metadata: Any,
+    ) -> AuditRecord:
         timestamp = time.time()
         data = {
             "timestamp": timestamp,
@@ -51,7 +58,7 @@ class AuditLogger:
         self._records.append(record)
         return record
 
-    def records(self) -> List[AuditRecord]:
+    def records(self) -> list[AuditRecord]:
         return list(self._records)
 
     def export(self, path: Path) -> None:

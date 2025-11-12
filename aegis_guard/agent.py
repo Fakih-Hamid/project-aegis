@@ -2,15 +2,15 @@
 
 from __future__ import annotations
 
+from collections.abc import Callable
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Callable
+from typing import Any
 
 from aegis_guard.audit import AuditLogger
 from aegis_guard.memory import UserMemory
 from aegis_guard.policy.engine import PolicyContext, PolicyDecision, PolicyEngine
 from aegis_guard.tools import db_query, email_draft, http_fetch, payment_stub, web_search
-
 
 ToolFunc = Callable[..., Any]
 
@@ -18,8 +18,15 @@ ToolFunc = Callable[..., Any]
 TOOL_REGISTRY: dict[str, ToolFunc] = {
     "http_fetch": lambda **kwargs: http_fetch.fetch(kwargs["url"]),
     "web_search": lambda **kwargs: web_search.search(kwargs["query"]),
-    "db_query": lambda **kwargs: db_query.query(kwargs.get("table", "config"), kwargs.get("limit", 5)),
-    "email_draft": lambda **kwargs: email_draft.draft(kwargs["subject"], kwargs["body"], kwargs.get("memory")),
+    "db_query": lambda **kwargs: db_query.query(
+        kwargs.get("table", "config"),
+        kwargs.get("limit", 5),
+    ),
+    "email_draft": lambda **kwargs: email_draft.draft(
+        kwargs["subject"],
+        kwargs["body"],
+        kwargs.get("memory"),
+    ),
     "payment_stub": lambda **kwargs: payment_stub.charge(kwargs["amount"]),
 }
 
@@ -47,7 +54,9 @@ class SandboxedAgent:
         self.audit = audit_logger or AuditLogger()
 
     def chat(self, prompt: str) -> AgentResponse:
-        decision = self.policy.evaluate(PolicyContext(tool="chat", payload=prompt, memory=self.memory))
+        decision = self.policy.evaluate(
+            PolicyContext(tool="chat", payload=prompt, memory=self.memory)
+        )
         if not decision.permitted:
             self.audit.log("chat", "deny", prompt, "blocked", reason=decision.reason)
             raise PermissionError(decision.reason)
@@ -76,6 +85,12 @@ class SandboxedAgent:
             adjusted_kwargs["memory"] = self.memory
 
         result = TOOL_REGISTRY[tool_name](**adjusted_kwargs)
-        self.audit.log(tool_name, "allow", payload_components, "ok", redacted=decision.redacted_text)
+        self.audit.log(
+            tool_name,
+            "allow",
+            payload_components,
+            "ok",
+            redacted=decision.redacted_text,
+        )
         return AgentResponse(content=result, decision=decision)
 

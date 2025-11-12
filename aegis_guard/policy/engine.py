@@ -3,17 +3,15 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, Literal, Mapping, Sequence
+from typing import Any, Literal
 
 import yaml
 
-from common.utils.pii import contains_pii
-
 from aegis_guard.memory import UserMemory
 from aegis_guard.redaction import RedactionResult, redact_sensitive
-
 
 ActionType = Literal["allow", "deny", "redact"]
 
@@ -47,7 +45,7 @@ class PolicyEngine:
         self.rules = list(rules)
 
     @classmethod
-    def from_yaml(cls, path: str | Path) -> "PolicyEngine":
+    def from_yaml(cls, path: str | Path) -> PolicyEngine:
         data = yaml.safe_load(Path(path).read_text(encoding="utf-8"))
         rules = [
             PolicyRule(id=item["id"], action=item["action"], match=item.get("match", {}))
@@ -107,7 +105,12 @@ class PolicyEngine:
             pii_hits=redaction.pii,
         )
 
-    def _matches(self, match: Mapping[str, Any], context: PolicyContext, redaction: RedactionResult) -> bool:
+    def _matches(
+        self,
+        match: Mapping[str, Any],
+        context: PolicyContext,
+        redaction: RedactionResult,
+    ) -> bool:
         if not match:
             return True
 

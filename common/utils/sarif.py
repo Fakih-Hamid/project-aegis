@@ -8,9 +8,10 @@ SARIF v2.1.0 payloads that can be consumed by code scanning tools.
 from __future__ import annotations
 
 import json
-from dataclasses import asdict, dataclass, field
+from collections.abc import Mapping, Sequence
+from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Any, Literal, Mapping, Sequence
+from typing import Any, Literal
 
 SARIF_VERSION = "2.1.0"
 

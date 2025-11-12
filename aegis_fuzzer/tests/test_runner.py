@@ -2,9 +2,6 @@
 
 from __future__ import annotations
 
-import asyncio
-from types import SimpleNamespace
-
 import pytest
 
 from aegis_fuzzer.engine.coverage import CoverageMap
@@ -18,7 +15,7 @@ class DummyHarness:
         self.coverage = coverage or CoverageMap()
         self.payloads: list[str] = []
 
-    async def __aenter__(self) -> "DummyHarness":
+    async def __aenter__(self) -> DummyHarness:
         return self
 
     async def __aexit__(self, exc_type, exc, tb) -> None:  # type: ignore[override]

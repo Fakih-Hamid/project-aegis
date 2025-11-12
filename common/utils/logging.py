@@ -3,12 +3,16 @@
 from __future__ import annotations
 
 import logging
-from typing import Iterable
+from collections.abc import Iterable
 
 from rich.logging import RichHandler
 
 
-def setup_logging(level: int = logging.INFO, *, extra_handlers: Iterable[logging.Handler] | None = None) -> None:
+def setup_logging(
+    level: int = logging.INFO,
+    *,
+    extra_handlers: Iterable[logging.Handler] | None = None,
+) -> None:
     """
     Configure root logging with sensible defaults for both demos.
 
