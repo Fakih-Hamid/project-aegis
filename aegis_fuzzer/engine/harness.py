@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import time
 from dataclasses import dataclass
+from types import TracebackType
 
 import httpx
 
@@ -42,7 +43,12 @@ class TargetHarness:
         self._client = httpx.AsyncClient(base_url=self.base_url, timeout=self.timeout)
         return self
 
-    async def __aexit__(self, exc_type, exc, tb) -> None:  # type: ignore[override]
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        tb: TracebackType | None,
+    ) -> None:
         if self._client is not None:
             await self._client.aclose()
         self._client = None

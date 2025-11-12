@@ -5,7 +5,7 @@ from __future__ import annotations
 import json
 from datetime import datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, cast
 
 from aegis_fuzzer.engine.runner import FuzzRunResult
 
@@ -32,7 +32,7 @@ def list_runs(path: Path | None = None) -> list[Path]:
 
 
 def load_run(path: Path) -> dict[str, Any]:
-    return json.loads(path.read_text(encoding="utf-8"))
+    return cast(dict[str, Any], json.loads(path.read_text(encoding="utf-8")))
 
 
 def load_latest(path: Path | None = None) -> dict[str, Any] | None:

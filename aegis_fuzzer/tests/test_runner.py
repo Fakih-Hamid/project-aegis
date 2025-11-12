@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from types import TracebackType
+
 import pytest
 
 from aegis_fuzzer.engine.coverage import CoverageMap
@@ -18,7 +20,12 @@ class DummyHarness:
     async def __aenter__(self) -> DummyHarness:
         return self
 
-    async def __aexit__(self, exc_type, exc, tb) -> None:  # type: ignore[override]
+    async def __aexit__(
+        self,
+        exc_type: type[BaseException] | None,
+        exc: BaseException | None,
+        tb: TracebackType | None,
+    ) -> None:
         return None
 
     async def warmup(self) -> None:

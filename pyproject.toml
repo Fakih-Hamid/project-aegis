@@ -71,6 +71,10 @@ disallow_untyped_defs = true
 plugins = []
 exclude = "(^|/)aegis-fuzzer/|(^|/)aegis-guard/"
 
+[[tool.mypy.overrides]]
+module = ["flask", "flask.*", "jinja2", "jinja2.*"]
+ignore_missing_imports = true
+
 [build-system]
 requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"

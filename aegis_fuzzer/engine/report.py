@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 from pathlib import Path
+from typing import Literal
 
 from jinja2 import Template
 
@@ -148,8 +149,8 @@ def _build_sarif_run(run: FuzzRunResult) -> SarifRun:
     )
 
 
-def _severity_to_level(severity: str) -> str:
-    mapping = {
+def _severity_to_level(severity: str) -> Literal["none", "note", "warning", "error"]:
+    mapping: dict[str, Literal["none", "note", "warning", "error"]] = {
         "low": "note",
         "medium": "warning",
         "high": "error",
