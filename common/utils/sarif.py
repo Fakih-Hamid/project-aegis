@@ -91,7 +91,7 @@ def _result_to_dict(result: SarifResult) -> dict[str, Any]:
 
 def run_to_sarif(run: SarifRun) -> dict[str, Any]:
     """Convert a :class:`SarifRun` object into a SARIF v2.1.0 dict."""
-    artifact_entries: list[dict[str, Any]] = [
+    artifact_entries = [
         {"location": {"uri": artifact}} for artifact in run.artifacts
     ]
 
