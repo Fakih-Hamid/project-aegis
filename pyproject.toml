@@ -55,7 +55,6 @@ select = [
     "B",
     "UP",
     "ASYNC",
-    "S",
 ]
 ignore = [
     "S311",  # cryptographically weak random warning (controlled usage)
